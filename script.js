@@ -39,11 +39,16 @@ function displayCart() {
   cart.innerHTML = "";
   for (let i = 0; i < shoppingCart.length; i++) {
     let li = document.createElement("li");
+        li.dataset.product = shoppingCart[i].productNameInput;
+    li.dataset.price =
+      shoppingCart[i].productPriceInput * shoppingCart[i].quantity;
+
+      let subTotal=shoppingCart[i].productPriceInput * shoppingCart[i].quantity;
     li.textContent =
       shoppingCart[i].productNameInput +
       "  " +
-      "  " +
-      shoppingCart[i].productPriceInput +
+      " $" +
+      subTotal +
       "  " +
       " Quantity " +
       shoppingCart[i].quantity;
@@ -65,7 +70,9 @@ function updateTotalPrice(amount) {
 // Function to remove an item
 function removeItem(event) {
   const item = event.target.closest("li");
-  const price = parseFloat(item.dataset.price);
+  const price = Number(item.dataset.price);
+   const product = item.dataset.product;
   updateTotalPrice(-price);
+  shoppingCart=shoppingCart.filter((p)=>p.productNameInput!==product);
   item.remove();
 }
